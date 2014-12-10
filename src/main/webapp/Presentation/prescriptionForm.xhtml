@@ -56,8 +56,14 @@ and open the template in the editor.
                 <p:inputTextarea value="#{doctor.medicine.description}"
                                  id="description"
                                  required="true" 
-                                 requiredMessage="Description is required"/>
+                                 requiredMessage="Description must be entered"/>
                 <p:message for="description" />
+                <p:outputLabel value="Diagnosis "/>
+                <p:inputTextarea value="#{doctor.diagnosis}"
+                                 id="diagnosis"
+                                 required="true" 
+                                 requiredMessage="Diagnosis must be entered"/>
+                <p:message for="diagnosis" />
                 <h:commandButton value="Add" action="#{doctor.addMedicine}"/>
                 <h:commandButton value="Submit" action="#{doctor.lastMedicine}"/>
             </h:panelGrid>

@@ -10,7 +10,8 @@
     <h:body>
         Doctor Portal
         <h:form>
-            <h:commandLink value="View Assignments" action="#{doctor.viewMyAssignments(loginCheck.doctor)}"/>
+            <h:commandLink value="View Assignments" action="#{doctor.viewMyAssignments(loginCheck.doctor)}"/><br/>
+            <h:commandLink value="View Patients History" action="#{doctor.viewAllHistory(loginCheck.doctor)}"/>
         </h:form>
     </h:body>
 </html>
