@@ -53,6 +53,7 @@ public class DoctorBean implements Serializable {
     private Prescription prescription = new Prescription();
     private MedicalHistory history = new MedicalHistory();
     private List<MedicalHistory> historyList = new ArrayList<MedicalHistory>();
+    private List<Prescription> prescriptions = new ArrayList<Prescription>();
     List<String> medicineNames = new ArrayList<String>();
     private String diagnosis;
     private String recipient;
@@ -150,6 +151,14 @@ public class DoctorBean implements Serializable {
 
     public List<MedicalHistory> getHistoryList() {
         return historyList;
+    }
+
+    public List<Prescription> getPrescriptions() {
+        return prescriptions;
+    }
+
+    public void setPrescriptions(List<Prescription> prescriptions) {
+        this.prescriptions = prescriptions;
     }
 
     public void setHistoryList(List<MedicalHistory> historyList) {
@@ -281,6 +290,7 @@ public class DoctorBean implements Serializable {
         history.setDiagnosticResult(diagnosis);
         symptom.getPatient().getHistory().add(history);
         symptom.getPatient().getPrescriptions().add(prescription);
+        history.setPrescription(prescription);
         doctor.getPatients().add(symptom.getPatient());
         symptom.getPatient().getDoctors().add(doctor);
         prescriptionFacade.create(prescription);
@@ -346,8 +356,8 @@ public class DoctorBean implements Serializable {
     }
 
     public String viewAllHistory(Doctor doc) {
-//        String query="SELECT * FROM DOCTOR_PATIENT WHERE patient.doctor.id = "+ doc.getId();
-//        patients = patientFacade.findByQuery(query);
+        String query = "SELECT * FROM DOCTOR_PATIENT WHERE patient.doctor.id = " + doc.getId();
+        patients = patientFacade.findByQuery(query);
         patients = doctorFacade.find(doc.getId()).getPatients();
         return "patientHistoryFromDoctor";
     }
@@ -355,5 +365,11 @@ public class DoctorBean implements Serializable {
     public String historyDetail(Patient p) {
         historyList = p.getHistory();
         return "patientHistoryDetail";
+    }
+
+    public String viewPrewscription(MedicalHistory histroy) {
+        prescription = history.getPrescription();
+        medicines = history.getPrescription().getMedicines();
+        return "historyPrescriptionsDetail";
     }
 }

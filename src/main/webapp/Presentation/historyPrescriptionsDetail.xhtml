@@ -22,15 +22,21 @@ and open the template in the editor.
             </ui:define>
             <ui:define name="content">
         <h:form>
-            <p:dataTable value="#{doctor.historyList}" var="history">
-                <p:column headerText="Date">
-                    <h:outputText value="#{history.checkUpDate}"/>
+            <p:dataTable value="#{doctor.medicines}" var="medicine">
+                <p:column headerText="Medication">
+                    <h:outputText value="#{medicine.nameOfMedicine}"/>
                 </p:column>
-                <p:column headerText="Diagnosis">
-                    <h:outputText value="#{history.diagnosticResult}"/>
+                <p:column headerText="Start Date">
+                    <h:outputText value="#{medicine.startDate}"/>
                 </p:column>
-                <p:column headerText="">
-                    <h:commandLink value="Prescriptions" action="#{doctor.viewPrescription(history)}"/>
+                <p:column headerText="End Date">
+                    <h:outputText value="#{medicine.endDate}"/>
+                </p:column>
+                <p:column headerText="Units per Day">
+                    <h:outputText value="#{medicine.unitsPerday}"/>
+                </p:column>
+                <p:column headerText="Prescription Description">
+                    <h:outputText value="#{doctor.prescription.prescDescription}"/>
                 </p:column>
             </p:dataTable>
         </h:form>
