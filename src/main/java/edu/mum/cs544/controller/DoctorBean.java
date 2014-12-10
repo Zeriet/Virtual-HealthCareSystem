@@ -51,7 +51,7 @@ public class DoctorBean implements Serializable {
     private List<Medicine> medicines = new ArrayList<Medicine>();
     private Medicine medicine = new Medicine();
     private Prescription prescription = new Prescription();
-    private MedicalHistory history=new MedicalHistory();
+    private MedicalHistory history = new MedicalHistory();
     private List<MedicalHistory> historyList = new ArrayList<MedicalHistory>();
     List<String> medicineNames = new ArrayList<String>();
     private String diagnosis;
@@ -305,6 +305,12 @@ public class DoctorBean implements Serializable {
 
     public String addMedicine() {
         prescription.getMedicines().add(medicine);
+        for (Medicine m : medicines) {
+            if (m.equals(medicine)) {
+                medicine = new Medicine();
+                return "prescriptionForm";
+            }
+        }
         medicines.add(medicine);
         medicine = new Medicine();
         return "prescriptionForm";
@@ -312,6 +318,11 @@ public class DoctorBean implements Serializable {
 
     public String lastMedicine() {
         prescription.getMedicines().add(medicine);
+        for (Medicine m : medicines) {
+            if (m.equals(medicine)) {
+                return "confirmPrescription";
+            }
+        }
         medicines.add(medicine);
 //        System.out.print(medicine.isEditable());
         return "confirmPrescription";
@@ -340,7 +351,8 @@ public class DoctorBean implements Serializable {
         patients = doctorFacade.find(doc.getId()).getPatients();
         return "patientHistoryFromDoctor";
     }
-    public String historyDetail(Patient p){
+
+    public String historyDetail(Patient p) {
         historyList = p.getHistory();
         return "patientHistoryDetail";
     }

@@ -21,7 +21,7 @@ and open the template in the editor.
             </ui:define>
             <ui:define name="content">
                 <p:panel header="Edit, Remove or Submit Prescription" style=" background-color:  aliceblue" >
-                    <p:scrollPanel style="width:800px;height:300px">
+                    <p:scrollPanel style="width:820px;height:300px">
                         <h:form>
                             <p:dataTable value="#{doctor.prescription.medicines}" var="medicine">
                                 <p:column headerText="Edit">
@@ -31,9 +31,9 @@ and open the template in the editor.
                                     <h:outputText value="#{medicine.nameOfMedicine}" rendered="#{not medicine.editable}"/>
                                     <p:inputText size="8" value="#{medicine.nameOfMedicine}" rendered="#{medicine.editable}"/>
                                 </p:column>
-                                <p:column headerText="Units per day">
-                                    <h:outputText value="#{medicine.unitsPerday}" rendered="#{not medicine.editable}"/>
-                                    <p:inputText size="8" value="#{medicine.unitsPerday}" rendered="#{medicine.editable}"/>
+                                <p:column headerText="Units per day" >
+                                    <h:outputText  value="#{medicine.unitsPerday}" rendered="#{not medicine.editable}"/>
+                                    <p:inputText size="5" value="#{medicine.unitsPerday}" rendered="#{medicine.editable}"/>
                                 </p:column>
                                 <p:column headerText="Start date" >
                                     <h:outputText value="#{medicine.startDate}" rendered="#{not medicine.editable}">
