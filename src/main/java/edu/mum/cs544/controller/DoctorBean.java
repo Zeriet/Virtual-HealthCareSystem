@@ -356,8 +356,6 @@ public class DoctorBean implements Serializable {
     }
 
     public String viewAllHistory(Doctor doc) {
-        String query = "SELECT * FROM DOCTOR_PATIENT WHERE patient.doctor.id = " + doc.getId();
-        patients = patientFacade.findByQuery(query);
         patients = doctorFacade.find(doc.getId()).getPatients();
         return "patientHistoryFromDoctor";
     }
@@ -367,7 +365,7 @@ public class DoctorBean implements Serializable {
         return "patientHistoryDetail";
     }
 
-    public String viewPrewscription(MedicalHistory histroy) {
+    public String viewPrescription(MedicalHistory histroy) {
         prescription = history.getPrescription();
         medicines = history.getPrescription().getMedicines();
         return "historyPrescriptionsDetail";
