@@ -69,6 +69,12 @@
                  
                 <p:inputTextarea value="#{virtualPatient.symptom.description}" rows="3"
                                  cols="45"/>
+                
+                
+                <h:selectOneMenu value="#{virtualPatient.categorySelected}">
+   			<f:selectItems value="#{virtualPatient.category}" var="cat"
+                                       itemLabel="#{cat.title}" itemValue="#{cat.title}" />
+   		</h:selectOneMenu>
 
             <h:commandButton value="submit" action="#{virtualPatient.submitSysmptom}"/>
 
