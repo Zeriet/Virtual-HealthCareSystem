@@ -14,6 +14,7 @@ import javax.persistence.Query;
  * @author FWorku
  */
 public abstract class AbstractFacade<T> {
+
     private Class<T> entityClass;
 
     public AbstractFacade(Class<T> entityClass) {
@@ -33,12 +34,12 @@ public abstract class AbstractFacade<T> {
     public void remove(T entity) {
         getEntityManager().remove(getEntityManager().merge(entity));
     }
-    
-    public T findSingleByQuery(T entity, String yourQuery, String bindParam,String bindValue){
-        Query query =  getEntityManager().createQuery(yourQuery);
+
+    public T findSingleByQuery(T entity, String yourQuery, String bindParam, String bindValue) {
+        Query query = getEntityManager().createQuery(yourQuery);
         query.setParameter(bindParam, bindValue);
-        return (T) query.getSingleResult();    
-        }
+        return (T) query.getSingleResult();
+    }
 
     public T find(Object id) {
         return getEntityManager().find(entityClass, id);
@@ -49,9 +50,15 @@ public abstract class AbstractFacade<T> {
         cq.select(cq.from(entityClass));
         return getEntityManager().createQuery(cq).getResultList();
     }
-    public List<T> findListByQuery(String queryString, int bindParam, String bindValue){
-        Query query=getEntityManager().createQuery(queryString);
-        query.setParameter(bindParam,bindValue);
+
+    public List<T> findListByQuery(String queryString, int bindParam, String bindValue) {
+        Query query = getEntityManager().createQuery(queryString);
+        query.setParameter(bindParam, bindValue);
+        return query.getResultList();
+    }
+
+    public List<T> findByQuery(String queryString) {
+        Query query = getEntityManager().createQuery(queryString);
         return query.getResultList();
     }
 
@@ -71,5 +78,5 @@ public abstract class AbstractFacade<T> {
         javax.persistence.Query q = getEntityManager().createQuery(cq);
         return ((Long) q.getSingleResult()).intValue();
     }
-    
+
 }

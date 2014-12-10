@@ -8,12 +8,18 @@ and open the template in the editor.
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:head>
         <title>TODO supply a title</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
+         <ui:composition template="/Presentation/sections/masterLayout.xhtml">
+            <ui:define name="windowTitle">
+
+            </ui:define>
+            <ui:define name="content">
         <h:form>
             <p:dataTable value="#{doctor.prescription.medicines}" var="medicine">
                 <p:column headerText="Edit">
@@ -21,16 +27,16 @@ and open the template in the editor.
                 </p:column>
                 <p:column headerText="Medicine Name">
                     <h:outputText value="#{medicine.nameOfMedicine}" rendered="#{not medicine.editable}"/>
-                    <p:inputText value="#{medicine.nameOfMedicine}" rendered="#{medicine.editable}"/>
+                    <p:inputText size="8" value="#{medicine.nameOfMedicine}" rendered="#{medicine.editable}"/>
                 </p:column>
                 <p:column headerText="Units per day">
                     <h:outputText value="#{medicine.unitsPerday}" rendered="#{not medicine.editable}"/>
-                    <p:inputText value="#{medicine.unitsPerday}" rendered="#{medicine.editable}"/>
+                    <p:inputText size="8" value="#{medicine.unitsPerday}" rendered="#{medicine.editable}"/>
                 </p:column>
                 <p:column headerText="Start date" >
                     <h:outputText value="#{medicine.startDate}" rendered="#{not medicine.editable}">
                         <f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
-                    <p:calendar value="#{medicine.startDate}" rendered="#{medicine.editable}"
+                    <p:calendar size="8" value="#{medicine.startDate}" rendered="#{medicine.editable}"
                                 locale="de" 
                                 navigator="true" 
                                 yearRange="c-100:c-16"
@@ -40,7 +46,7 @@ and open the template in the editor.
                 <p:column headerText="End date">
                     <h:outputText value="#{medicine.endDate}" rendered="#{not medicine.editable}">
                         <f:convertDateTime pattern="MM/dd/yyyy" /></h:outputText>
-                    <p:calendar value="#{medicine.endDate}" rendered="#{medicine.editable}"
+                    <p:calendar size="8" value="#{medicine.endDate}" rendered="#{medicine.editable}"
                                 locale="de" 
                                 navigator="true" 
                                 yearRange="c-100:c-16"
@@ -57,5 +63,7 @@ and open the template in the editor.
             </p:dataTable><br/>
             <h:commandButton value="Submit" action="#{doctor.writePrescription()}"/>
         </h:form>
+            </ui:define>
+         </ui:composition>
     </h:body>
 </html>
