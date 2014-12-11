@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.mum.cs544.controller;
+package edu.mum.cs544.backingBeans;
 
+import edu.mum.cs544.Controller.RegistrationEJB;
 import edu.mum.cs544.boundary.AddressFacade;
 import edu.mum.cs544.boundary.CategoryFacade;
 import edu.mum.cs544.boundary.DoctorFacade;
@@ -32,6 +33,8 @@ import webServices.MailService;
 @Named
 @SessionScoped
 public class Registration implements Serializable {
+    @EJB
+    private RegistrationEJB registrationEJB;
 
     /**
      * Creates a new instance of UserRegistration
@@ -44,6 +47,8 @@ public class Registration implements Serializable {
     private DoctorFacade doctorFacade;
     @EJB
     private CategoryFacade categoryFacade;
+    
+    
 
     public Registration() {
     }
@@ -91,19 +96,13 @@ public class Registration implements Serializable {
     }
 
     public String registerUser() {
-        this.patient.setAddress(address);
-        this.addressFacade.create(address);
-        this.patientFacade.create(patient);    
         
-        recipient=this.patient.getEmail();
-        try {
-            MailService.sendMessage(recipient, subject, message);
-        } catch (MessagingException ex) {
-            Logger.getLogger(Registration.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        registrationEJB.registeruser(patient,address);        
         
         return "home";
     }
+    
+    
 
     public Category findCatagory(String title) {
         String query = "SELECT c FROM Category c WHERE c.title = :" + category.getTitle();

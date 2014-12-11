@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.mum.cs544.EJBs;
+package edu.mum.cs544.Controller;
 
 import edu.mum.cs544.boundary.AddressFacade;
 import edu.mum.cs544.boundary.CategoryFacade;
