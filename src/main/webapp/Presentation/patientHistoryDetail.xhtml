@@ -15,26 +15,30 @@ and open the template in the editor.
         <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     </h:head>
     <h:body>
-        
-        <ui:composition template="/Presentation/sections/masterLayout.xhtml">
+
+        <ui:composition template="/Presentation/sections/masterLayoutDoctor.xhtml">
             <ui:define name="windowTitle">
 
             </ui:define>
             <ui:define name="content">
-        <h:form>
-            <p:dataTable value="#{doctor.historyList}" var="history">
-                <p:column headerText="Date">
-                    <h:outputText value="#{history.checkUpDate}"/>
-                </p:column>
-                <p:column headerText="Diagnosis">
-                    <h:outputText value="#{history.diagnosticResult}"/>
-                </p:column>
-                <p:column headerText="">
-                    <h:commandLink value="Prescriptions" action="#{doctor.viewPrescription(history)}"/>
-                </p:column>
-            </p:dataTable>
-        </h:form>
-            </ui:define>
-        </ui:composition>
-    </h:body>
-</html>
+                <p:panel header="Patient History" style=" background-color:  aliceblue" >
+                    <p:scrollPanel style="width:820px;height:300px">
+                        <h:form>
+                            <p:dataTable value="#{doctor.historyList}" var="history">
+                                <p:column headerText="Date">
+                                    <h:outputText value="#{history.checkUpDate}"/>
+                                </p:column>
+                                <p:column headerText="Diagnosis">
+                                    <h:outputText value="#{history.diagnosticResult}"/>
+                                </p:column>
+                                <p:column headerText="">
+                                    <h:commandLink value="Prescriptions" action="#{doctor.viewPrescription(history)}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form>
+                    </p:scrollPanel>
+                </p:panel>
+                        </ui:define>
+                        </ui:composition>
+                        </h:body>
+                        </html>
