@@ -52,7 +52,6 @@ public class VirtualPatientEJB {
 
         Patient patient = (Patient) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("patientKey");
         System.out.println("++++++++++++++++++++++++++++++++++++++++++" + patient.getEmail());
-
         symptom.setCategory(cat);
         symptom.setDate(new Date());
         symptom.setPatient(patient);
