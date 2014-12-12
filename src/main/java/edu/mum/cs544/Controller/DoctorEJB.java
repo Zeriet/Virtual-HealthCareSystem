@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package edu.mum.cs544.backingBeans;
+package edu.mum.cs544.Controller;
 
-import edu.mum.cs544.Controller.DoctorEJB;
+import edu.mum.cs544.backingBeans.LoginCheck;
+import edu.mum.cs544.backingBeans.Registration;
 import edu.mum.cs544.boundary.CategoryFacade;
 import edu.mum.cs544.boundary.DoctorFacade;
 import edu.mum.cs544.boundary.MedicalHistoryFacade;
@@ -27,6 +28,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Asynchronous;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Named;
 import javax.interceptor.AroundInvoke;
@@ -40,9 +42,8 @@ import webServices.MailService;
  *
  * @author hiwot
  */
-@Named("doctor")
-@SessionScoped
-public class DoctorBean implements Serializable {
+@Stateless
+public class DoctorEJB {
 
     private Doctor doctor = new LoginCheck().getDoctor();
     private List<Doctor> doctors;
@@ -76,11 +77,7 @@ public class DoctorBean implements Serializable {
     @EJB
     private PrescriptionFacade prescriptionFacade;
     @EJB
-    private DoctorEJB doctorEjb;
-    @EJB
     private MedicalHistoryFacade historyFacade;
-
-
 
 
     public Doctor getDoctor() {
@@ -268,14 +265,28 @@ public class DoctorBean implements Serializable {
         this.prescriptionFacade = prescriptionFacade;
     }
 
-    public String viewMyAssignments(Doctor doc) {
-        doctor = doc;
-//        symptoms = doctorEjb.viewMyAssignments(doc);
+    public List<String> getMedicineNames() {
+        return medicineNames;
+    }
+
+    public void setMedicineNames(List<String> medicineNames) {
+        this.medicineNames = medicineNames;
+    }
+
+    public MedicalHistoryFacade getHistoryFacade() {
+        return historyFacade;
+    }
+
+    public void setHistoryFacade(MedicalHistoryFacade historyFacade) {
+        this.historyFacade = historyFacade;
+    }
+    
+
+    public List<Symptom> viewMyAssignments(Doctor doc) {
         String doctorCategory = doc.getCategory().getTitle();
         String query = "SELECT symptom FROM Symptom symptom WHERE symptom.category.title= ?1"
                 + " AND symptom.prescribed=false ";
-        symptoms=symptomFacade.findListByQuery(query, 1, doctorCategory);
-        return "viewAssignments";
+        return symptomFacade.findListByQuery(query, 1, doctorCategory);
     }
 
     public String symptomDetail(Symptom s) {
@@ -283,17 +294,16 @@ public class DoctorBean implements Serializable {
         return "viewSymptomDetail";
     }
 
-    public String writePrescription() {
-        symptom.setPrescribed(true);
-        symptoms.remove(symptom);
-        history.setCheckUpDate(new Date());
-        history.setDiagnosticResult(diagnosis);
-        symptom.getPatient().getHistory().add(history);
-        symptom.getPatient().getPrescriptions().add(prescription);
-        history.setPrescription(prescription);
-        doctor.getPatients().add(symptom.getPatient());
-        symptom.getPatient().getDoctors().add(doctor);
-       return doctorEjb.writePrescription(prescription, doctor, symptom,history);
+    public String writePrescription(Prescription p,Doctor d,Symptom s,MedicalHistory h) {
+        historyFacade.create(h);
+        prescriptionFacade.create(p);
+        patientFacade.edit(s.getPatient());
+        doctorFacade.edit(d);
+        symptomFacade.edit(s);
+
+        recipient = s.getPatient().getEmail();
+        sendEmail(recipient);
+        return "prescriptionConfirmation";
     }
 //    @AroundInvoke
 
@@ -306,51 +316,4 @@ public class DoctorBean implements Serializable {
         }
     }
 
-    public String addMedicine() {
-        prescription.getMedicines().add(medicine);
-        for (Medicine m : medicines) {
-            if (m.equals(medicine)) {
-                medicine = new Medicine();
-                return "prescriptionForm";
-            }
-        }
-        medicines.add(medicine);
-        medicine = new Medicine();
-        return "prescriptionForm";
-    }
-
-    public String lastMedicine() {
-        prescription.getMedicines().add(medicine);
-        for (Medicine m : medicines) {
-            if (m.equals(medicine)) {
-                return "confirmPrescription";
-            }
-        }
-        medicines.add(medicine);
-//        System.out.print(medicine.isEditable());
-        return "confirmPrescription";
-    }
-
-    public String deleteRow(Medicine m) {
-        prescription.getMedicines().remove(m);
-        medicines.remove(medicine);
-        return "confirmPrescription";
-    }
-    
-    public String viewAllHistory(Doctor doc) {
-        patients = doctorFacade.find(doc.getId()).getPatients();
-        return "patientHistoryFromDoctor";
-    }
-
-    public String historyDetail(Patient p) {
-        historyList = p.getHistory();
-        return "patientHistoryDetail";
-    }
-
-    public String viewPrescription(Long id) {
-        history = historyFacade.find(id);
-        setMedicines(history.getPrescription().getMedicines());
-        return "historyPrescriptionsDetail";
-    }
-        
 }

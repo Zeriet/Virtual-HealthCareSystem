@@ -1004,7 +1004,7 @@ body {
 
 /* Starter CSS for Flyout Menu */
 #cssmenu {
-    padding: 0;
+    padding-top: 30px;
     margin: 0;
     border: 0;
     line-height: 1;

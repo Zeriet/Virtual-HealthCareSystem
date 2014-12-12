@@ -32,7 +32,7 @@ and open the template in the editor.
                                     <h:outputText value="#{history.diagnosticResult}"/>
                                 </p:column>
                                 <p:column headerText="">
-                                    <h:commandLink value="Prescriptions" action="#{doctor.viewPrescription(history)}"/>
+                                    <h:commandLink value="Prescriptions" action="#{doctor.viewPrescription(history.id)}"/>
                                 </p:column>
                             </p:dataTable>
                         </h:form>

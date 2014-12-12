@@ -8,13 +8,18 @@
     <body>        
         <ui:composition>    
             <div id='cssmenu'>
-            <ul class="nav">
-                <li class="active"><h:link value="View Assignments" outcome="viewAssignments"/></li>
-                <li class="active"><h:link value="Patient History" outcome="patientHistoryFromDoctor"/></li>
+                <ul class="nav">
+                    <h:form>
+                        <li class="active"> 
+                            <h:commandLink value="View Assignments" action="#{doctor.viewMyAssignments(loginCheck.doctor)}"/>
+                        </li>
+                        <li class="active">                   
+                            <h:commandLink value="View Patients History" action="#{doctor.viewAllHistory(loginCheck.doctor)}"/>
+                        </li>
+                    </h:form>
+                </ul>  
 
-            </ul>  
-             
-          </div>
+            </div>
         </ui:composition>
     </body>
 </html>
