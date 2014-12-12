@@ -51,6 +51,7 @@ public class DoctorBean implements Serializable {
     private Symptom symptom = new Symptom();
     private Patient patient = new Patient();
     private List<Medicine> medicines = new ArrayList<Medicine>();
+    private List<Medicine> medicines2 = new ArrayList<Medicine>();
     private Medicine medicine = new Medicine();
     private Prescription prescription = new Prescription();
     private MedicalHistory history = new MedicalHistory();
@@ -79,9 +80,6 @@ public class DoctorBean implements Serializable {
     private DoctorEJB doctorEjb;
     @EJB
     private MedicalHistoryFacade historyFacade;
-
-
-
 
     public Doctor getDoctor() {
         return doctor;
@@ -138,6 +136,14 @@ public class DoctorBean implements Serializable {
 
     public void setMedicines(List<Medicine> medicines) {
         this.medicines = medicines;
+    }
+
+    public List<Medicine> getMedicines2() {
+        return medicines2;
+    }
+
+    public void setMedicines2(List<Medicine> medicines2) {
+        this.medicines2 = medicines2;
     }
 
     public Medicine getMedicine() {
@@ -274,7 +280,7 @@ public class DoctorBean implements Serializable {
         String doctorCategory = doc.getCategory().getTitle();
         String query = "SELECT symptom FROM Symptom symptom WHERE symptom.category.title= ?1"
                 + " AND symptom.prescribed=false ";
-        symptoms=symptomFacade.findListByQuery(query, 1, doctorCategory);
+        symptoms = symptomFacade.findListByQuery(query, 1, doctorCategory);
         return "viewAssignments";
     }
 
@@ -293,7 +299,7 @@ public class DoctorBean implements Serializable {
         history.setPrescription(prescription);
         doctor.getPatients().add(symptom.getPatient());
         symptom.getPatient().getDoctors().add(doctor);
-       return doctorEjb.writePrescription(prescription, doctor, symptom,history);
+        return doctorEjb.writePrescription(prescription, doctor, symptom, history);
     }
 //    @AroundInvoke
 
@@ -336,7 +342,7 @@ public class DoctorBean implements Serializable {
         medicines.remove(medicine);
         return "confirmPrescription";
     }
-    
+
     public String viewAllHistory(Doctor doc) {
         patients = doctorFacade.find(doc.getId()).getPatients();
         return "patientHistoryFromDoctor";
@@ -349,8 +355,13 @@ public class DoctorBean implements Serializable {
 
     public String viewPrescription(Long id) {
         history = historyFacade.find(id);
-        setMedicines(history.getPrescription().getMedicines());
+        prescription = history.getPrescription();
+        System.out.print(id + "+++++++++++++++++++++");
+        medicines.clear();
+        setMedicines2(history.getPrescription().getMedicines());
+        System.out.print(history.getPrescription().getId() + "+++++++++++++++++++++");
+        System.out.print(medicines.size() + "+++++++++++++++++++++");
         return "historyPrescriptionsDetail";
     }
-        
+
 }
