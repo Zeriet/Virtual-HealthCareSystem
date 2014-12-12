@@ -38,7 +38,7 @@ import webServices.MailService;
  *
  * @author hiwot
  */
-@Named("doctor")
+@Named(value = "doctor")
 @SessionScoped
 public class DoctorBean implements Serializable {
 
